@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/bdsiifnsp?zeroDateTimeBehavior=convertToNull</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.current_session_context_class">thread</property>
+    <!--configuraciones c3po-->
+    <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+    <!--<property name="hibernate.max_fetch_depth">3</property>-->
+    <!--<property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>-->
+    <property name="hibernate.c3p0.acquire_increment">2</property>
+    <property name="hibernate.c3p0.idle_test_period">10000</property>
+    <property name="hibernate.c3p0.timeout">28800</property>
+    <property name="hibernate.c3p0.debugUnreturnedConnectionStackTraces">true</property>
+    <property name="hibernate.c3p0.unreturnedConnectionTimeout">120</property>
+    <property name="hibernate.c3p0.max_size">25</property>
+    <property name="hibernate.c3p0.min_size">1</property>
+    <property name="hibernate.c3p0.max_statement">0</property>
+    <property name="hibernate.c3p0.preferredTestQuery">select 1</property>
+    <property name="hibernate.c3p0.testConnectionOnCheckout">true</property>
+    <property name="hibernate.c3p0.validate">true</property>
+    <!--<property name="hibernate.connection.provider_class">org.hibernate.service.jdbc.connections.internal.C3P0ConnectionProvider</property>-->
+    <!--fin configuraciones c3po-->
+    <mapping resource="com/udea/fnsp/buho/modelo/PeInteresespersona.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/MaPerfil.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/MaTipoestudio.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/PePersona.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/MaSexo.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/PeEstudios.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/MaDepartamento.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/MaAreaestudio.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/MaAreasinteres.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/MaTipoexperiencia.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/MaUsuario.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/MaAreaexperiencia.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/MaAreaconvoca.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/PeExplaboral.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/MaTipoid.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/MaMunicipio.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/MaIdiomas.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/PeIdiomas.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/MaNaturalezainst.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/MaDedicacion.hbm.xml"/>
+    <mapping resource="com/udea/fnsp/buho/modelo/MaPais.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

@@ -1,0 +1,54 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/06/2014 12:01:48 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="com.udea.fnsp.buho.modelo.PeExplaboral" table="pe_explaboral" catalog="bdsiifnsp">
+        <id name="epCod" type="java.lang.Integer">
+            <column name="ep_cod" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="maDedicacion" class="com.udea.fnsp.buho.modelo.MaDedicacion" fetch="select">
+            <column name="ep_dedicacion" />
+        </many-to-one>
+        <many-to-one name="maNaturalezainst" class="com.udea.fnsp.buho.modelo.MaNaturalezainst" fetch="select">
+            <column name="ep_tipoinstitucion" />
+        </many-to-one>
+        <many-to-one name="maAreaexperiencia" class="com.udea.fnsp.buho.modelo.MaAreaexperiencia" fetch="select">
+            <column name="ep_area" />
+        </many-to-one>
+        <many-to-one name="pePersona" class="com.udea.fnsp.buho.modelo.PePersona" fetch="select">
+            <column name="ep_persona" length="20" />
+        </many-to-one>
+        <many-to-one name="maTipoexperiencia" class="com.udea.fnsp.buho.modelo.MaTipoexperiencia" fetch="select">
+            <column name="ep_tipoexperiencia" />
+        </many-to-one>
+        <property name="epCargo" type="string">
+            <column name="ep_cargo" length="250" />
+        </property>
+        <property name="epInstitucion" type="string">
+            <column name="ep_institucion" length="250" />
+        </property>
+        <property name="epFechaingreso" type="date">
+            <column name="ep_fechaingreso" length="10" />
+        </property>
+        <property name="epFecharetiro" type="date">
+            <column name="ep_fecharetiro" length="10" />
+        </property>
+        <property name="epActual" type="string">
+            <column name="ep_actual" length="2" />
+        </property>
+        <property name="epCertificado" type="string">
+            <column name="ep_certificado" length="250" />
+        </property>
+        <property name="epUrl" type="string">
+            <column name="ep_url" length="250" />
+        </property>
+        <property name="epArchivo" type="string">
+            <column name="ep_archivo" length="20" />
+        </property>
+        <property name="epFecharegistro" type="timestamp">
+            <column name="ep_fecharegistro" length="19" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

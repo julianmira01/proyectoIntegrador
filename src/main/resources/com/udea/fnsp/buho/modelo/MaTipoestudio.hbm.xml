@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/06/2014 12:01:48 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="com.udea.fnsp.buho.modelo.MaTipoestudio" table="ma_tipoestudio" catalog="bdsiifnsp">
+        <id name="tpCod" type="java.lang.Integer">
+            <column name="tp_cod" />
+            <generator class="identity" />
+        </id>
+        <property name="tpCategoria" type="int">
+            <column name="tp_categoria" not-null="true" />
+        </property>
+        <property name="tpNombre" type="string">
+            <column name="tp_nombre" length="20" />
+        </property>
+        <set name="peEstudioses" table="pe_estudios" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="est_tipo" />
+            </key>
+            <one-to-many class="com.udea.fnsp.buho.modelo.PeEstudios" />
+        </set>
+    </class>
+</hibernate-mapping>

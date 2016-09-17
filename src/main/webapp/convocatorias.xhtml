@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./views/templates/Template.xhtml">
+
+
+            <ui:define name="content">
+                <p:growl id="msg" showDetail="true" life="5000"/>
+                <h:form id="frmConvocatoriasVigentes">
+                    <p:panel style="width: 103%" header="Convocatorias e Invitaciones ">
+                        <p:dataTable  emptyMessage="No hay invitaciones o convoctaorias vigentes"  var="convocatorias" value="#{convocatoriasBean.maAreasintereses}">
+                            <f:facet name="header">  
+                                Convocatorias Vigentes
+                            </f:facet>                              
+                            <p:column headerText="Area" >  
+                                <h:outputText value="#{convocatorias.maAreaconvoca.acNombre}" />  
+                            </p:column>
+                            <p:column headerText="Nombre" >  
+                                <h:outputText value="#{convocatorias.aiNombre}" />  
+                            </p:column>
+                            <p:column headerText="Fecha de Incio Conovocatoria" >  
+                                <h:outputText value="#{convocatorias.aiFechainicio}" />  
+                            </p:column>
+                            <p:column headerText="Fecha Fin Convocatoria" >  
+                                <h:outputText value="#{convocatorias.aiFechafin}" />                               
+                            </p:column>
+                            <p:column  headerText="Documento" style="text-align: center">                                
+                                <h:outputLink rendered="#{not empty convocatorias.aiDoc}" target="_blank" value="resources/docs/#{convocatorias.aiDoc}">Ver Documento</h:outputLink>                                
+                            </p:column>
+                            <p:column headerText="Ver" style="text-align: center">                                
+                                <p:commandButton update=":frmDialogAplicarConvocatoria" oncomplete="PF('dialogAplicarConvocatoria').show()" title="Ver convocatoria" icon="ui-icon-search" >                                    
+                                    <f:setPropertyActionListener value="#{convocatorias}" target="#{convocatoriasBean.convoSeleccionada}"/>
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel>
+                </h:form>
+                <br/>
+                <br/>
+                <br/>
+                <br/>
+                <h:form id="frmConvocatoriasPersona">
+                    <!-- <p:panel style="width: 103%" header="Convocatorias e Invitaciones "> -->
+                    <p:dataTable emptyMessage="No se a inscrito a ninguna invitacion o convocatoria"  var="convocaPersonas" value="#{convocatoriasBean.peInteresespersona}">
+                        <f:facet name="header">  
+                            Mis Convocatorias
+                        </f:facet>   
+                        <p:column headerText="Area" >  
+                            <h:outputText value="#{convocaPersonas.maAreasinteres.maAreaconvoca.acNombre}" />  
+                        </p:column>
+                        <p:column headerText="Nombre" >  
+                            <h:outputText value="#{convocaPersonas.maAreasinteres.aiNombre}" />  
+                        </p:column>
+                        <p:column headerText="Fecha de Incio Conovcatoria" >  
+                            <h:outputText value="#{convocaPersonas.maAreasinteres.aiFechainicio}" />  
+                        </p:column>
+                        <p:column headerText="Fecha Fin convocatoria" >  
+                            <h:outputText value="#{convocaPersonas.maAreasinteres.aiFechafin}" />                               
+                        </p:column>
+                        <p:column  headerText="Resultado" style="text-align: center">                                
+                            <h:outputLink rendered="#{not empty convocaPersonas.maAreasinteres.aiDocresultados}" target="_blank" value="resources/docs/#{convocaPersonas.maAreasinteres.aiDocresultados}">Ver Resulatdo</h:outputLink>                                
+                        </p:column>
+                        <p:column headerText="Opciones" style="text-align: center">
+                            <p:commandButton oncomplete="PF('dialogConvocatoriaDelete').show()" id="btnDelete" icon="ui-icon-trash" title="Eliminar">  
+                                <f:setPropertyActionListener value="#{convocaPersonas}" target="#{convocatoriasBean.interesPersona}"/>
+                            </p:commandButton>
+                        </p:column>                            
+                    </p:dataTable>
+                    <!--</p:panel>-->
+                </h:form>
+                <h:form id="frmDialogAplicarConvocatoria">
+                    <p:dialog header="Aplicar a Convocatoria" widgetVar="dialogAplicarConvocatoria" resizable="false" id="dialogInsertarIdioma"  
+                              showEffect="fade" hideEffect="fade" modal="true">  
+                        <h:panelGrid  columns="2" cellpadding="4" style="margin:0 auto;">  
+                            <h:outputLabel value="Area:" />
+                            <h:outputLabel value="#{convocatoriasBean.convoSeleccionada.maAreaconvoca.acNombre}"/>
+                            <h:outputLabel value="Nombre:" />
+                            <h:outputLabel value="#{convocatoriasBean.convoSeleccionada.aiNombre}"/>
+                            <h:outputLabel value="Fecha Inicio:" />
+                            <h:outputLabel value="#{convocatoriasBean.convoSeleccionada.aiFechainicio}"/>
+                            <h:outputLabel value="Fecha Fin:" />
+                            <h:outputLabel value="#{convocatoriasBean.convoSeleccionada.aiFechafin}"/>
+                            <h:outputLabel value="Fecha publicación de resultados:"/> 
+                            <h:outputLabel value="#{convocatoriasBean.convoSeleccionada.aiFechapublicacion}"/>
+                        </h:panelGrid>
+                        <br/>
+                        <h:outputLabel value="Perfil:" /><br/><br/>                            
+                        <p:inputTextarea readonly="true"  rows="7" cols="50" value="#{convocatoriasBean.convoSeleccionada.aiPerfilsolicitado}" /> 
+                        <f:facet name="footer">
+                            <p:separator/>
+                            <p:commandButton id="btnCreateAceptar" update=":msg,:frmConvocatoriasPersona" actionListener="#{convocatoriasBean.btnCreateConvocatoria(actionEvent)}"  icon="ui-icon-check" title="Guardar" value ="Guardar"/>  
+                            <p:commandButton id="btnCreateCancelar" oncomplete="PF('dialogAplicarConvocatoria').hide()"  icon="ui-icon-close" title="Cancelar" value ="Cancelar"/>  
+                        </f:facet>
+                    </p:dialog>             
+                </h:form>
+                <h:form id="frmDeleteIdioma">
+                    <p:confirmDialog id ="confirmDialog" message="Esta seguro de eliminar el registro?
+                                     " header ="Eliminar Convocatoria" severity="alert" widgetVar="dialogConvocatoriaDelete">                      
+                        <p:commandButton  id ="confirm" value="Aceptar" update=":frmConvocatoriasPersona ,:msg" oncomplete="dialogConvocatoriaDelete.hide()"
+                                          actionListener="#{convocatoriasBean.btnDeleteConvocatoria(actionEvent)}" icon="ui-icon-check"/>  
+                        <p:commandButton id="decline" value="Cancelar" onclick="dialogConvocatoriaDelete.hide()" type="button" icon="ui-icon-close"/>       
+                    </p:confirmDialog>  
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,91 @@
+<?xml version='1.0' encoding='UTF-8' ?> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <link rel="shortcut icon" href="resources/img/favicon.ico" type="image/x-icon" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <h:outputStylesheet name="./css/default.css"/>
+        <h:outputStylesheet name="./css/cssLayout.css"/>
+        <title>Banco de Hojas de Vida</title>
+    </h:head>
+    <h:body>
+        <div>
+            <h:form>
+                <p:idleMonitor onactive="sessionTimeOutDialog.show();" timeout="#{session.maxInactiveInterval * 1000}" />
+                <p:dialog header="Sesión caducada" widgetVar="sessionTimeOutDialog"
+                          modal="true" resizable="false"  closable="false"  visible="false">
+                    <h:outputText value="La sesión ha caducado, por favor, pulse sobre el siguiente boton 
+                                  para volver a acceder a la aplicación" />
+                    <p:separator/>
+                    <p:commandButton style="alignment-adjust:  central" id="confirmBackToLogin"  value="Volver a acceder a la aplicación"
+                                     onclick="window.location = '#{facesContext.externalContext.requestContextPath}/index.xhtml';" />
+                </p:dialog>
+            </h:form>
+        </div>
+        <div id="top"  >
+            <table id="tblheader"><tr><td>
+                        <img src="resources/img/header.png"/></td><td valign="bottom">
+                        <h:form id="InfUsuario">                
+                            <p:outputLabel value="#{loginBean.usuario.pePersona.peNombres.concat(' ').concat(loginBean.usuario.pePersona.peApellidos)}"/>
+                            |                             
+                            <p:commandLink  style="color: white" value="Cerrar Sesión" actionListener="#{loginBean.logout()}" oncomplete="handleLoginRequest(xhr, status, args)"/>                   
+
+                        </h:form>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div>
+            <table width="100%"  style="min-height: 650px;" ><tr><td valign="top">
+                        <div id="left" >
+                            <h:form > 
+                                <p:menu id="menu" >  
+                                    <p:submenu rendered="#{loginBean.usuario.maPerfil.pfMenuPersona}" label="Persona">  
+                                        <p:menuitem rendered="#{loginBean.usuario.maPerfil.pfMenuPersonaInfo}" value="Información Personal" url="inicio.xhtml"  />  
+                                        <p:menuitem rendered="#{loginBean.usuario.maPerfil.pfMenuPersonaAcad}" value="Aspectos Académicos" url="personaacademico.xhtml"  />
+                                        <p:menuitem rendered="#{loginBean.usuario.maPerfil.pfMenuPersonaLaboral}" value="Experiencia" url="personaexperiencia.xhtml" />  
+                                    </p:submenu> 
+                                    <p:submenu rendered="#{loginBean.usuario.maPerfil.pfMenuConvocatorias}" label="Convocatorias e invitaciones">  
+                                        <p:menuitem rendered="#{loginBean.usuario.maPerfil.pfMenuConvocatoriasVigentes}" value="Convocatorias Vigentes" url="convocatorias.xhtml" />    
+                                    </p:submenu> 
+
+                                    <p:submenu rendered="#{loginBean.usuario.maPerfil.pfMenuConsultas}" label="Consultas"> 
+                                        <p:menuitem rendered="#{loginBean.usuario.maPerfil.pfMenuConsultasConsu}" value="Consulta Personas" url="consultas.xhtml"/>
+                                    </p:submenu>
+                                    <p:submenu rendered="#{loginBean.usuario.maPerfil.pfMenuPerfil}" label="Perfil">  
+                                        <p:menuitem rendered="#{loginBean.usuario.maPerfil.pfMenuPerfilContrasena}" value="Cambiar contraseña" url="cambiarcontrasena.xhtml" />  
+                                    </p:submenu> 
+                                    <p:submenu rendered="#{loginBean.usuario.maPerfil.pfMenuAdministrar}" label="Administar">  
+                                        <p:menuitem rendered="#{loginBean.usuario.maPerfil.pfMenuAdministrarPerfil}" value="Perfiles" url="administrarperfiles.xhtml" />
+                                        <p:menuitem rendered="#{loginBean.usuario.maPerfil.pfMenuAdministrarUsuario}" value="Usuarios" url="administrarusuarios.xhtml" /> 
+                                    </p:submenu> 
+                                </p:menu>   
+                                <p:commandButton  action = "#{hojaDeVidaBean.verPDF()}" 
+                                                  ajax = "false"  onclick = " this.form.target = '_blank'" 
+                                                  value = "DESCARGA TU HOJA DE VIDA!"/>
+                            </h:form>
+                        </div>                       
+                    </td>
+                    <td valign="top">    
+                        <div id="content">
+                            <ui:insert name="content">Content</ui:insert>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <script type="text/javascript">
+            function handleLoginRequest(xhr, status, args) {
+                if (args.loggetOut) {
+                    location.href = args.ruta;
+                }
+            }
+        </script> 
+    </h:body>
+
+</html>

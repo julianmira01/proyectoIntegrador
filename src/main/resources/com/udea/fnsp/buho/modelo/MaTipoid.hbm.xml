@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/06/2014 12:01:48 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="com.udea.fnsp.buho.modelo.MaTipoid" table="ma_tipoid" catalog="bdsiifnsp">
+        <id name="tiCod" type="string">
+            <column name="ti_cod" length="3" />
+            <generator class="assigned" />
+        </id>
+        <property name="tiNombre" type="string">
+            <column name="ti_nombre" length="40" />
+        </property>
+        <set name="pePersonas" table="pe_persona" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="pe_tipoid" length="3" />
+            </key>
+            <one-to-many class="com.udea.fnsp.buho.modelo.PePersona" />
+        </set>
+    </class>
+</hibernate-mapping>

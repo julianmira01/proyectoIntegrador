@@ -1,0 +1,172 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./views/templates/Template.xhtml">
+            <ui:define name="content">
+                <h:outputScript library="js" name="descargaCertificado.js"/>
+                <h:outputScript library="js" name="limpiarDialogEstudio.js"/> 
+                <p:growl id="growl" showDetail="true"   life="5000" />
+                <h:form id="frmEstudiosPersona">                     
+                    <p:panel style="width: 103%" id="pnlEstudios" header="Estudios">
+                        <h:form>
+                            <p:commandButton id="btnUsuarioInsertarEstudio" oncomplete="PF('dialogInsertarEstudio').show()" icon="ui-icon-plusthick" title="Agregar estudio" value ="Agregar estudio"/>  
+                        </h:form>  
+                        <p:dataTable emptyMessage="No hay estudios registrados" id="dtbEstudios" var="estudios" value="#{estudiosBean.peEstudios}">
+                            <f:facet name="header">  
+                                Estudios
+                            </f:facet>  
+                            <p:column headerText="Tipo de Estudio" >  
+                                <h:outputText value="#{estudios.maTipoestudio.tpNombre}" />  
+                            </p:column>  
+
+                            <p:column headerText="Area de Estudio" >
+                                <h:outputText value="#{estudios.maAreaestudio.aeNombre}" />  
+                            </p:column>  
+
+                            <p:column headerText="Nombre de Estudio" >  
+                                <h:outputText value="#{estudios.estNombreestudio}" />  
+                            </p:column>
+
+                            <p:column headerText="Institución" >  
+                                <h:outputText value="#{estudios.estInstitucion}" />  
+                            </p:column>  
+
+                            <p:column headerText="Año de culminación" >  
+                                <h:outputText value="#{estudios.estAnio}" />  
+                            </p:column>                                                       
+                            <p:column headerText="Duración" >  
+                                <h:outputText value="#{estudios.estDuracion}" />  
+                            </p:column>                     
+                            <p:column headerText="Estado" >  
+                                <h:outputText value="#{estudios.estEstado}" />  
+                            </p:column> 
+                            <p:column headerText="Certificado" >
+                                <p:commandButton oncomplete="PF('dialogCargarCertificado').show()"  icon="ui-icon-arrowthickstop-1-n" title="Subir">
+                                    <f:setPropertyActionListener value="#{estudios}" target="#{estudiosBean.estudioSeleccionado}" />  
+                                </p:commandButton>    
+                                <p:commandButton actionListener="#{descargarCertificado.prepDownload(estudios.estCertificado)}" ajax="false" id="downloadLink" onclick="PrimeFaces.monitorDownload(start, stop)"   
+                                                 icon="ui-icon-arrowthickstop-1-s">  
+                                    <p:fileDownload value="#{descargarCertificado.desCargarCertificado}" />  
+                                </p:commandButton>                  
+                            </p:column>  
+                            <p:column headerText="Opciones" >  
+                                <p:commandButton id="btnDelete" update=":formDeleteEstudio"  oncomplete="PF('dialogEstudioDelete').show()" icon="ui-icon-trash" title="Eliminar">  
+                                    <f:setPropertyActionListener value="#{estudios}" target="#{estudiosBean.estudioSeleccionado}" />  
+                                </p:commandButton>
+                                <p:commandButton id="btnUpdate" update=":formUpdateEstudio"  oncomplete="PF('dialogUpdateEstudio').show()" icon="ui-icon-pencil" title="Actualizar">  
+                                    <f:setPropertyActionListener value="#{estudios}" target="#{estudiosBean.estudioSeleccionado}" />  
+                                </p:commandButton> 
+                            </p:column> 
+                        </p:dataTable>  
+                    </p:panel>
+                </h:form>                
+                <h:form id="frmSubirCertificado" enctype="multipart/form-data">
+                    <p:dialog showEffect="slide" hideEffect="fade" header="Cargar certificado" widgetVar="dialogCargarCertificado" resizable="false" id="dialogCargarCertificado"  
+                              modal="true">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Certificado:"/>
+                            <p:fileUpload  value="#{estudiosBean.certificadoArchivo}" mode="simple"                       
+                                           sizeLimit="1000000" />                     
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton ajax="false" id="btnSubir"  
+                                                 update=":frmEstudiosPersona, :growl" actionListener="#{estudiosBean.upload()}" icon="ui-icon-check" title="Subir" value ="Subir"/>
+                                <p:commandButton id="btnCancelar" oncomplete="PF('dialogCargarCertificado').hide()" icon="ui-icon-close" title="Cancelar" value ="Cancelar"/>  
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+                <h:form id ="formAgregarEstudio">
+                    <p:dialog onHide="limpiarForm()" header="Agregar Estudio" widgetVar="dialogInsertarEstudio" resizable="false" id="dialogInsertarEstudio"  
+                              showEffect="fade" hideEffect="fade" modal="true">                        
+                        <h:panelGrid id="pgEstudios" columns="2" cellpadding="4" style="margin:0 auto;">  
+                            <h:outputLabel value="Tipo de Estudio:" />  
+                            <p:selectOneMenu id="TipEstudio"  value="#{estudiosBean.estudioSeleccionado.maTipoestudio.tpCod}">
+                                <f:selectItem itemLabel="- Seleccione - " noSelectionOption="true" />  
+                                <f:selectItems value="#{estudiosBean.selectOneItemsTipoEstudio}" /> 
+                            </p:selectOneMenu>
+                            <h:outputLabel value="Area de Estudio:" />  
+                            <p:selectOneMenu id="AreaEstudio" value="#{estudiosBean.estudioSeleccionado.maAreaestudio.aeCod}">
+                                <f:selectItem itemLabel="- Seleccione - " noSelectionOption="true" />  
+                                <f:selectItems value="#{estudiosBean.selectOneItemsAreaEstudio}" /> 
+                            </p:selectOneMenu>
+                            <h:outputLabel for="txtNombreEstudio" value="Nombre de Estudio:" />  
+                            <p:inputText  id="txtNombreEstudio" value="#{estudiosBean.estudioSeleccionado.estNombreestudio}" size="70"/>
+                            <h:outputLabel for="txtInstitucion" value="Institución:" />  
+                            <p:inputText  id="txtInstitucion" value="#{estudiosBean.estudioSeleccionado.estInstitucion}" size="70"/>
+                            <h:outputLabel for="txtCulminacion" value="Año de gradución:" />  
+                            <p:inputText id="txtCulminacion" value="#{estudiosBean.estudioSeleccionado.estAnio}" >
+                                <f:validateLength maximum="4" minimum="4"/>                             
+                            </p:inputText>
+                            <h:outputLabel for="txtDuracion" value="Duración:" />  
+                            <p:inputText id="txtDuracion" value="#{estudiosBean.estudioSeleccionado.estDuracion}" />
+                            <h:outputLabel value="Estado:" />  
+                            <p:selectOneRadio   id="rdbEstado" value="#{estudiosBean.estudioSeleccionado.estEstado}">
+                                <f:selectItem itemLabel="Estudiando" itemValue="Estudiando"/>
+                                <f:selectItem itemLabel="Terminado" itemValue="Terminado"/>
+                            </p:selectOneRadio>                               
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton id="btnCreateAceptar" update=":frmEstudiosPersona, :growl" actionListener="#{estudiosBean.btnCreateEstudio(actionEvent)}" icon="ui-icon-check" title="Guardar" value ="Guardar"/>
+                                <p:commandButton id="btnCreateCancelar" oncomplete="PF('dialogInsertarEstudio').hide()" icon="ui-icon-close" title="Cancelar" value ="Cancelar"/>  
+                            </f:facet>
+                        </h:panelGrid>                        
+                    </p:dialog>  
+                </h:form> 
+                <h:form id ="formUpdateEstudio">
+                    <p:dialog header="Actualizar Estudio" widgetVar="dialogUpdateEstudio" resizable="false" id="dialogInsertarEstudio"  
+                              showEffect="fade" hideEffect="fade" modal="true">  
+                        <h:inputHidden value="#{estudiosBean.estudioSeleccionado.estCod}" />
+                        <h:panelGrid id="pgEstudios" columns="2" cellpadding="4" style="margin:0 auto;">  
+                            <h:outputText value="Tipo de Estudio:" />  
+                            <p:selectOneMenu  id="TipEstudio"  value="#{estudiosBean.estudioSeleccionado.maTipoestudio.tpCod}">
+                                <f:selectItem itemLabel="- Seleccione - " noSelectionOption="true" />  
+                                <f:selectItems value="#{estudiosBean.selectOneItemsTipoEstudio}" /> 
+                            </p:selectOneMenu>
+                            <h:outputText value="Area de Estudio:" />  
+                            <p:selectOneMenu  id="AreaEstudio" value="#{estudiosBean.estudioSeleccionado.maAreaestudio.aeCod}">
+                                <f:selectItem itemLabel="- Seleccione - " noSelectionOption="true" />  
+                                <f:selectItems value="#{estudiosBean.selectOneItemsAreaEstudio}" /> 
+                            </p:selectOneMenu>
+                            <h:outputLabel for="txtNombreEstudio" value="Nombre de Estudio:" />  
+                            <p:inputText  id="txtNombreEstudio" value="#{estudiosBean.estudioSeleccionado.estNombreestudio}" size="70"/>
+                            <h:outputLabel for="txtInstitucion" value="Institución:" />  
+                            <p:inputText  id="txtInstitucion" value="#{estudiosBean.estudioSeleccionado.estInstitucion}" size="70"/>
+                            <h:outputLabel for="txtCulminacion" value="Año de gradución:" />  
+                            <p:inputText id="txtCulminacion" value="#{estudiosBean.estudioSeleccionado.estAnio}" />
+                            <h:outputLabel for="txtDuracion" value="Duración:" />  
+                            <p:inputText id="txtDuracion" value="#{estudiosBean.estudioSeleccionado.estDuracion}" />
+                            <h:outputText value="Area de Estudio:" />  
+                            <p:selectOneRadio  id="rdbEstado" value="#{estudiosBean.estudioSeleccionado.estEstado}">
+                                <f:selectItem itemLabel="Estudiando" itemValue="Estudiando"/>
+                                <f:selectItem itemLabel="Terminado" itemValue="Terminado"/>
+                            </p:selectOneRadio>                                                  
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton id="btnCreateAceptar" update=":frmEstudiosPersona, :growl" actionListener="#{estudiosBean.btnUpdateEstudio(actionEvent)}" icon="ui-icon-check" title="Guardar" value ="Guardar"/>  
+                                <p:commandButton id="btnCreateCancelar" oncomplete="PF('dialogUpdateEstudio').hide()" icon="ui-icon-close" title="Cancelar" value ="Cancelar"/>  
+                            </f:facet>
+                        </h:panelGrid>  
+                    </p:dialog>  
+                </h:form> 
+                <h:form id="formDeleteEstudio">
+                    <p:confirmDialog showEffect="fade" hideEffect="fade" id ="confirmDialog" message="Esta seguro de eliminar el estudio?" header ="Eliminar Estudio" severity="alert" widgetVar="dialogEstudioDelete">  
+                        <h:inputHidden value="#{estudiosBean.estudioSeleccionado.estCod}" /> 
+                        <p:commandButton  id ="confirm" value="Aceptar" update=":frmEstudiosPersona ,:growl" oncomplete="dialogEstudioDelete.hide()"
+                                          actionListener="#{estudiosBean.btnDeleteEstudio(actionEvent)}" icon="ui-icon-check"/>  
+                        <p:commandButton id="decline" value="Cancelar" onclick="dialogEstudioDelete.hide()" type="button" icon="ui-icon-close"/>       
+                    </p:confirmDialog>  
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

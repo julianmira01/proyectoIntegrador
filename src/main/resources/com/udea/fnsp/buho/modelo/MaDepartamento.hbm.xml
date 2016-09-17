@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/06/2014 12:01:48 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="com.udea.fnsp.buho.modelo.MaDepartamento" table="ma_departamento" catalog="bdsiifnsp">
+        <id name="dptoCod" type="string">
+            <column name="dpto_cod" length="3" />
+            <generator class="assigned" />
+        </id>
+        <property name="deptoNombre" type="string">
+            <column name="depto_nombre" length="50" />
+        </property>
+        <property name="dptoHabilitado" type="int">
+            <column name="dpto_habilitado" not-null="true" />
+        </property>
+        <set name="maMunicipios" table="ma_municipio" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mpio_dpto" length="3" />
+            </key>
+            <one-to-many class="com.udea.fnsp.buho.modelo.MaMunicipio" />
+        </set>
+        <set name="maMunicipios_1" table="ma_municipio" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="mpio_dpto" length="3" />
+            </key>
+            <one-to-many class="com.udea.fnsp.buho.modelo.MaMunicipio" />
+        </set>
+    </class>
+</hibernate-mapping>

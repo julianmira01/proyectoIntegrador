@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/06/2014 12:01:48 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="com.udea.fnsp.buho.modelo.MaUsuario" table="ma_usuario" catalog="bdsiifnsp">
+        <id name="usId" type="java.lang.Integer">
+            <column name="us_id" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="pePersona" class="com.udea.fnsp.buho.modelo.PePersona" fetch="select">
+            <column name="us_persona" length="20" not-null="true" />
+        </many-to-one>
+        <many-to-one name="maPerfil" class="com.udea.fnsp.buho.modelo.MaPerfil" fetch="select">
+            <column name="us_perfil" />
+        </many-to-one>
+        <property name="usClave" type="string">
+            <column name="us_clave" length="50" />
+        </property>
+    </class>
+</hibernate-mapping>

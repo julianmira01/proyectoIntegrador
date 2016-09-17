@@ -1,0 +1,108 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/06/2014 12:01:48 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="com.udea.fnsp.buho.modelo.PePersona" table="pe_persona" catalog="bdsiifnsp">
+        <id name="peNumeroid" type="string">
+            <column name="pe_numeroid" length="20" />
+            <generator class="assigned" />
+        </id>
+        <many-to-one name="maPais" class="com.udea.fnsp.buho.modelo.MaPais" fetch="select">
+            <column name="pe_nacionalidad" />
+        </many-to-one>
+        <many-to-one name="maMunicipioByPeLugarnacimiento" class="com.udea.fnsp.buho.modelo.MaMunicipio" fetch="select">
+            <column name="pe_lugarnacimiento" length="6" />
+        </many-to-one>
+        <many-to-one name="maTipoid" class="com.udea.fnsp.buho.modelo.MaTipoid" fetch="select">
+            <column name="pe_tipoid" length="3" />
+        </many-to-one>
+        <many-to-one name="maMunicipioByPeLugarexpced" class="com.udea.fnsp.buho.modelo.MaMunicipio" fetch="select">
+            <column name="pe_lugarexpced" length="6" />
+        </many-to-one>
+        <many-to-one name="maSexo" class="com.udea.fnsp.buho.modelo.MaSexo" fetch="select">
+            <column name="pe_sexo" length="1" />
+        </many-to-one>
+        <many-to-one name="maMunicipioByPeCiudadresidencia" class="com.udea.fnsp.buho.modelo.MaMunicipio" fetch="select">
+            <column name="pe_ciudadresidencia" length="6" />
+        </many-to-one>
+        <property name="peFechaexpced" type="date">
+            <column name="pe_fechaexpced" length="10" />
+        </property>
+        <property name="peLibretamilitar" type="string">
+            <column name="pe_libretamilitar" length="20" />
+        </property>
+        <property name="peDistritoclase" type="string">
+            <column name="pe_distritoclase" length="30" />
+        </property>
+        <property name="peApellidos" type="string">
+            <column name="pe_apellidos" length="35" />
+        </property>
+        <property name="peNombres" type="string">
+            <column name="pe_nombres" length="80" />
+        </property>
+        <property name="peFechaNac" type="date">
+            <column name="pe_fechaNac" length="10" />
+        </property>
+        <property name="peDireccionresidencia" type="string">
+            <column name="pe_direccionresidencia" length="250" />
+        </property>
+        <property name="peTelefono" type="string">
+            <column name="pe_telefono" length="15" />
+        </property>
+        <property name="peTeloficina" type="string">
+            <column name="pe_teloficina" length="15" />
+        </property>
+        <property name="peCelular" type="string">
+            <column name="pe_celular" length="15" />
+        </property>
+        <property name="peEmail" type="string">
+            <column name="pe_email" length="250" />
+        </property>
+        <property name="pePerfil" type="string">
+            <column name="pe_perfil" />
+        </property>
+        <property name="peFoto" type="string">
+            <column name="pe_foto" length="250" />
+        </property>
+        <property name="peUpdate" type="timestamp">
+            <column name="pe_update" length="19" not-null="true" />
+        </property>
+        <property name="peDisponibilidadTrabajoBogota" type="java.lang.Boolean">
+            <column name="pe_disponibilidad_trabajo_bogota"/>
+        </property>
+        <property name="peDisponibilidadTrabajoOtrasRegiones" type="java.lang.Boolean">
+            <column name="pe_disponibilidad_trabajo_otras_regiones"/>
+        </property>
+        <set name="peIdiomases" table="pe_idiomas" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="pid_persona" length="20" not-null="true" />
+            </key>
+            <one-to-many class="com.udea.fnsp.buho.modelo.PeIdiomas" />
+        </set>
+        <set name="peInteresespersonas" table="pe_interesespersona" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ip_persona" length="20" />
+            </key>
+            <one-to-many class="com.udea.fnsp.buho.modelo.PeInteresespersona" />
+        </set>
+        <set name="maUsuarios" table="ma_usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="us_persona" length="20" not-null="true" />
+            </key>
+            <one-to-many class="com.udea.fnsp.buho.modelo.MaUsuario" />
+        </set>
+        <set name="peEstudioses" table="pe_estudios" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="est_persona" length="20" />
+            </key>
+            <one-to-many class="com.udea.fnsp.buho.modelo.PeEstudios" />
+        </set>
+        <set name="peExplaborals" table="pe_explaboral" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ep_persona" length="20" />
+            </key>
+            <one-to-many class="com.udea.fnsp.buho.modelo.PeExplaboral" />
+        </set>
+    </class>
+</hibernate-mapping>

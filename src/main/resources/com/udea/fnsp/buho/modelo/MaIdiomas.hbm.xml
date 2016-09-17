@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/06/2014 12:01:48 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="com.udea.fnsp.buho.modelo.MaIdiomas" table="ma_idiomas" catalog="bdsiifnsp">
+        <id name="idCod" type="java.lang.Integer">
+            <column name="id_cod" />
+            <generator class="identity" />
+        </id>
+        <property name="idNombre" type="string">
+            <column name="id_nombre" length="20" />
+        </property>
+        <set name="peIdiomases" table="pe_idiomas" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="pid_idioma" not-null="true" />
+            </key>
+            <one-to-many class="com.udea.fnsp.buho.modelo.PeIdiomas" />
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/06/2014 12:01:48 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="com.udea.fnsp.buho.modelo.PeEstudios" table="pe_estudios" catalog="bdsiifnsp">
+        <id name="estCod" type="java.lang.Integer">
+            <column name="est_cod" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="maAreaestudio" class="com.udea.fnsp.buho.modelo.MaAreaestudio" fetch="select">
+            <column name="est_area" />
+        </many-to-one>
+        <many-to-one name="maTipoestudio" class="com.udea.fnsp.buho.modelo.MaTipoestudio" fetch="select">
+            <column name="est_tipo" />
+        </many-to-one>
+        <many-to-one name="pePersona" class="com.udea.fnsp.buho.modelo.PePersona" fetch="select">
+            <column name="est_persona" length="20" />
+        </many-to-one>
+        <property name="estNombreestudio" type="string">
+            <column name="est_nombreestudio" length="250" />
+        </property>
+        <property name="estInstitucion" type="string">
+            <column name="est_institucion" length="150" />
+        </property>
+        <property name="estAnio" type="string">
+            <column name="est_anio" length="4" />
+        </property>
+        <property name="estDuracion" type="string">
+            <column name="est_duracion" length="50" />
+        </property>
+        <property name="estEstado" type="string">
+            <column name="est_estado" length="150" />
+        </property>
+        <property name="estCertificado" type="string">
+            <column name="est_certificado" length="250" />
+        </property>
+        <property name="estUrl" type="string">
+            <column name="est_url" length="250" />
+        </property>
+        <property name="estArchivo" type="string">
+            <column name="est_archivo" length="20" />
+        </property>
+        <property name="estUpdate" type="timestamp">
+            <column name="est_update" length="19"/>
+        </property>
+    </class>
+</hibernate-mapping>

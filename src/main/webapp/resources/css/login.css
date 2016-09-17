@@ -1,0 +1,53 @@
+body
+{
+    background-color: menu; padding: 0px 0px 0px 0px; margin: 0px 0px 0px 0px;   
+}
+.container
+{
+    width: 350px;
+   
+    font-size: 85%; 
+
+}
+
+#header
+{
+    height: 150px; 
+    background-color: #004c1a; 
+    min-width: 1360px;
+    
+}
+
+.Convocatorias
+{
+   overflow-y: scroll;
+   min-height: 500px;
+   height: auto;
+   min-width: 960px;
+   
+}
+
+.ui-widget
+{
+    font-size: 14px ;
+}
+
+.ui-datatable
+{
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;   
+    font-size: 12px;
+
+}
+
+/*.ui-state-default[role="button"]
+{
+    background :rgb(50, 69, 76);
+}*/
+
+.lblConvo
+{
+    font-family: "Trebuchet MS", Arial, Helvetica, sans-serif; 
+    alignment-adjust: central;
+    margin-left: 430px; 
+    font-size: 20px;
+}

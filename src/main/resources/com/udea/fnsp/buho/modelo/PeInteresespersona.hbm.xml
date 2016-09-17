@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/06/2014 12:01:48 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="com.udea.fnsp.buho.modelo.PeInteresespersona" table="pe_interesespersona" catalog="bdsiifnsp">
+        <id name="ipCod" type="java.lang.Integer">
+            <column name="ip_cod" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="pePersona" class="com.udea.fnsp.buho.modelo.PePersona" fetch="select">
+            <column name="ip_persona" length="20" />
+        </many-to-one>
+        <many-to-one name="maAreasinteres" class="com.udea.fnsp.buho.modelo.MaAreasinteres" fetch="select">
+            <column name="ip_area" not-null="true" />
+        </many-to-one>
+        <property name="ipHabilitado" type="java.lang.Integer">
+            <column name="ip_habilitado" />
+        </property>
+        <property name="ipPreseleccion" type="string">
+            <column name="ip_preseleccion" length="2" />
+        </property>
+        <property name="ipFecharegistro" type="timestamp">
+            <column name="ip_fecharegistro" length="19" />
+        </property>
+    </class>
+</hibernate-mapping>

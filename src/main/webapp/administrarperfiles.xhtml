@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+    <body>
+
+        <ui:composition template="./views/templates/Template.xhtml">
+            <ui:define name="content">
+                <h:form id="frmPerfiles">
+                    <p:dataTable var="perfil" value="#{perfilBean.perfiles}">
+                        <h:inputHidden value="#{perfil.pfCod}" />
+                        <p:column headerText="Descripcion">
+                            <h:outputText value="#{perfil.pfNombre}"  />
+                        </p:column>
+                        <p:column style="width:12%; text-align: center">  
+                            <p:commandButton icon="ui-icon-pencil" title="Editar" />                            
+                            <p:commandButton oncomplete="dlgPermisos.show()" icon="ui-icon-locked" title="Permisos"
+                                             update=":frmPermisos:dlgPermisos" actionListener="#{perfilBean.prepararPerfil(perfil.pfCod)}"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+
+                <h:form id="frmPermisos">
+                    <p:dialog id="dlgPermisos" header="Permisos #{perfilBean.perfil.pfNombre}" widgetVar="dlgPermisos" resizable="false" modal="true">  
+                        <p:growl id="growl" showDetail="false" sticky="true" />                        
+
+                        <br/><h:outputText style="font-weight:bold" value="Persona:" />
+                        <br/><p:selectBooleanCheckbox value="#{perfilBean.perfil.pfMenuPersonaInfo}"/>
+                        <h:outputText value="Informacion Personal" />
+                        <br/><p:selectBooleanCheckbox  value="#{perfilBean.perfil.pfMenuPersonaAcad}"/>
+                        <h:outputText value="Informacion Academica" />
+                        <br/><p:selectBooleanCheckbox  value="#{perfilBean.perfil.pfMenuPersonaLaboral}"/>
+                        <h:outputText value="Experiencia Laboral" />
+                        <br/>
+                        <br/><h:outputText style="font-weight:bold" value="Convocatorias e invitaciones:" />
+                        <br/><p:selectBooleanCheckbox  value="#{perfilBean.perfil.pfMenuConvocatoriasVigentes}"/>
+                        <h:outputText value="Convocatorias Vigentes" />
+                        <br/>
+                        <br/><h:outputText style="font-weight:bold" value="Visualizar:" />
+                        <br/><p:selectBooleanCheckbox  value="#{perfilBean.perfil.pfMenuVisualizarHoja}"/>
+                        <h:outputText value="Hoja de Vida" />
+                        <br/>
+                        <br/><h:outputText style="font-weight:bold" value="Consultas:" />
+                        <br/><p:selectBooleanCheckbox  value="#{perfilBean.perfil.pfMenuConsultasConsu}"/>
+                        <h:outputText value="Consultas Persona" />
+                        <br/>
+                        <br/><h:outputText style="font-weight:bold" value="Perfil:" />
+                        <br/><p:selectBooleanCheckbox  value="#{perfilBean.perfil.pfMenuPerfilContrasena}"/>
+                        <h:outputText value="Cambiar contraseña" />                        
+                        <br/>
+                        <br/><h:outputText style="font-weight:bold" value="Administrar:" />
+                        <br/><p:selectBooleanCheckbox value="#{perfilBean.perfil.pfMenuAdministrarPerfil}"/>
+                        <h:outputText value="Perfiles" />
+                        <br/><p:selectBooleanCheckbox  value="#{perfilBean.perfil.pfMenuAdministrarUsuario}"/>
+                        <h:outputText value="usuarios" />
+                        <br/>
+                        <br/>
+                        <p:separator/>
+                        <p:commandButton value="Guardar" icon="ui-icon-check" oncomplete="dlgPermisos.hide();"
+                                         update="growl" actionListener="#{perfilBean.actualizarPerfil()}"/>
+                        <p:commandButton value="Cancelar" icon="ui-icon-close" oncomplete="dlgPermisos.hide();"/>
+
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+
+    </body>
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/06/2014 12:01:48 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="com.udea.fnsp.buho.modelo.MaTipoexperiencia" table="ma_tipoexperiencia" catalog="bdsiifnsp">
+        <id name="teCod" type="java.lang.Integer">
+            <column name="te_cod" />
+            <generator class="identity" />
+        </id>
+        <property name="teDescirpcion" type="string">
+            <column name="te_descirpcion" length="50" />
+        </property>
+        <set name="peExplaborals" table="pe_explaboral" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ep_tipoexperiencia" />
+            </key>
+            <one-to-many class="com.udea.fnsp.buho.modelo.PeExplaboral" />
+        </set>
+    </class>
+</hibernate-mapping>

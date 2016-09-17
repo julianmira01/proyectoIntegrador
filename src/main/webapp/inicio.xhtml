@@ -1,0 +1,286 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./views/templates/Template.xhtml">
+
+            <ui:define name="content">
+                <h:outputScript library="js" name="idiomaCalendar.js"/> 
+                <p:growl id="growl" showDetail="true"   life="5000" /> 
+                <h:form id="frmDatosPersona">
+                    <p:panel style="width: 103%" header="Información Personal">                       
+                        <h:panelGrid style="margin-left: 60px" columns="4" cellpadding="10" >  
+                            <h:outputLabel for="lblIdentificacion" value="Identificación:" />
+                            <p:outputLabel id="lblIdentificacion" value="#{personaBean.personaSeleccionada.peNumeroid}" />
+                            <h:outputLabel value="Tipo Id:"/>
+                            <p:selectOneMenu id="somTipoId" value="#{personaBean.personaSeleccionada.maTipoid.tiCod}" required="true" >
+                                <f:selectItem itemLabel="- Seleccione - " noSelectionOption="true" />  
+                                <f:selectItems value="#{tipoIdBean.selectOneItemsTipoId}" />  
+                            </p:selectOneMenu>
+                            <h:outputLabel  value="Fecha de expedición:"/>
+                            <p:calendar locale="es" yearRange="c-80:c+10" navigator="true" value="#{personaBean.personaSeleccionada.peFechaexpced}" id="popupButtonCalExpe" showOn="button"  />                              
+                            <h:outputLabel  value="Lugar de expedición:"/>
+                            <h:panelGroup>
+                                <p:outputLabel   value="#{personaBean.personaSeleccionada.maMunicipioByPeLugarexpced.maDepartamento.deptoNombre} - #{personaBean.personaSeleccionada.maMunicipioByPeLugarexpced.mpioNombre}" />
+                                &nbsp;
+                                <p:commandButton  icon="ui-icon-search" oncomplete="PF('dialogBuscarCiudadExpedicion').show()" title="Buscar ciudad" style="width: 16px; height: 16px"/>  
+                            </h:panelGroup>
+                            <h:outputLabel for="txtNombre" value="Nombre:" />
+                            <p:inputText id="txtNombre" value="#{personaBean.personaSeleccionada.peNombres}" size="33" />                   
+                            <h:outputLabel for="txtApellidos" value="Apellidos:"/>
+                            <p:inputText id="txtApellidos" value="#{personaBean.personaSeleccionada.peApellidos}" size="33"/>
+                            <p:outputLabel  value="Cargar foto:" />                                                         
+                            <p:commandButton  icon="ui-icon-search" oncomplete="PF('dialogCargarFoto').show()" 
+                                              title="Buscar ciudad" style="width: 16px; height: 16px"/>                            
+                            <h:outputLabel for="pais" value="Nacionalidad:"/>
+                            <h:panelGroup>
+                                <p:outputLabel id="pais"  value="#{personaBean.personaSeleccionada.maPais.paisNombre} " />
+                                &nbsp;
+                                <p:commandButton  icon="ui-icon-search" oncomplete="PF('dialogBuscarPais').show()" title="Buscar ciudad" style="width: 16px; height: 16px"/>  
+                            </h:panelGroup>
+                            <h:outputLabel rendered="#{personaBean.personaSeleccionada.maPais.paisCod eq 343}" for="lblLugarNacimiento" value="Lugar de Nacimiento:"/>
+                            <h:panelGroup rendered="#{personaBean.personaSeleccionada.maPais.paisCod eq 343}">
+                                <p:outputLabel  id="lblLugarNacimiento"  value="#{personaBean.personaSeleccionada.maMunicipioByPeLugarnacimiento.maDepartamento.deptoNombre} - #{personaBean.personaSeleccionada.maMunicipioByPeLugarnacimiento.mpioNombre} " />
+                                &nbsp;
+                                <p:commandButton  icon="ui-icon-search" oncomplete="PF('dialogBuscarCiudadNacimiento').show()" title="Buscar ciudad" style="width: 16px; height: 16px"/>  
+                            </h:panelGroup>
+                            <h:outputLabel for="lblLugarResidencia" value="Lugar Residencia:"/>
+                            <h:panelGroup>
+                                <p:outputLabel id="lblLugarResidencia"  value="#{personaBean.personaSeleccionada.maMunicipioByPeCiudadresidencia.maDepartamento.deptoNombre} - #{personaBean.personaSeleccionada.maMunicipioByPeCiudadresidencia.mpioNombre}" />
+                                &nbsp;
+                                <p:commandButton  icon="ui-icon-search" oncomplete="PF('dialogBuscarCiudadResidencia').show()" title="Buscar ciudad" style="width: 16px; height: 16px"/>  
+                            </h:panelGroup>
+
+                            <h:outputLabel  value="Fecha de nacimiento:"/>
+                            <p:calendar locale="es" yearRange="c-80:c+10" navigator="true" value="#{personaBean.personaSeleccionada.peFechaNac}" id="popupButtonCal" showOn="button"  />                              
+                            <h:outputLabel for="txtdireccionResidencia" value="Dirección residencia:"/>
+                            <p:inputText id="txtdireccionResidencia" value="#{personaBean.personaSeleccionada.peDireccionresidencia}" size="33" />
+                            <h:outputLabel for="txtTelResidencia" value="Tel.Residencia:"/>
+                            <p:inputMask mask="999-99-99" id="txtTelResidencia" value="#{personaBean.personaSeleccionada.peTelefono}" size="33"/>
+                            <h:outputLabel for="txtCelular" value="Celular:"/>
+                            <p:inputMask mask="999-999-9999" id="txtCelular" value="#{personaBean.personaSeleccionada.peCelular}" size="33" />
+                            <h:outputLabel for="txtTelOficina" value="Tel.Oficina:"/>
+                            <p:inputMask id="txtTelOficina" value="#{personaBean.personaSeleccionada.peTeloficina}" mask="999-99-99"  size="33" />
+                            <h:outputLabel for="txtEmail" value="Correo Electronico:"/>
+                            <p:inputText id="txtEmail" value="#{personaBean.personaSeleccionada.peEmail}"  size="33">
+                                <f:validator validatorId="custom.emailValidator" /> 
+                            </p:inputText>
+                            <h:outputLabel  rendered="#{personaBean.personaSeleccionada.maSexo.seCod eq 'M'}" for="txtLibretaMilitar" value="Libreta Militar:"  />
+                            <p:inputText id="txtLibretaMilitar" rendered="#{personaBean.personaSeleccionada.maSexo.seCod eq 'M'}"  value="#{personaBean.personaSeleccionada.peLibretamilitar}" size="33"/>
+                            <h:outputLabel rendered="#{personaBean.personaSeleccionada.maSexo.seCod eq 'M'}" for="txtLibretaMilitarClase" value="Distrito - Clase:" />
+                            <p:inputMask id="txtLibretaMilitarClase" rendered="#{personaBean.personaSeleccionada.maSexo.seCod eq 'M'}" title="Ej:48-segunda o primera" mask="99-aaaaaa*"   value="#{personaBean.personaSeleccionada.peDistritoclase}"  size="33"/>
+                            <p:tooltip for="txtLibretaMilitarClase" showEvent="focus" hideEvent="blur" /> 
+
+                        </h:panelGrid> 
+                        <br/>
+                        <h:panelGrid style="margin-left: 61px" columns="2" cellpadding="10">
+                            <p:outputLabel for="txtPerfil" value="Perfil Laboral y Profesional:"/>
+                            <p:inputTextarea id="txtPerfil" value="#{personaBean.personaSeleccionada.pePerfil}"  autoResize="false"   rows="7" cols="96" /> 
+                            <h:outputLabel value="¿Tiene disponibilidad para trabajar en Bogota?"/>
+                            <h:selectOneRadio  value="#{personaBean.personaSeleccionada.peDisponibilidadTrabajoBogota}">
+                                <f:selectItem itemLabel="SI " itemValue="#{true}" />
+                                <f:selectItem itemLabel="NO" itemValue="#{false}" />
+                            </h:selectOneRadio>
+                            <h:outputLabel value="¿Tiene disponibilidad para trabajar en otras regiones del país?"/>
+                            <h:selectOneRadio  value="#{personaBean.personaSeleccionada.peDisponibilidadTrabajoOtrasRegiones}">
+                                <f:selectItem itemLabel="SI " itemValue="#{true}" />
+                                <f:selectItem itemLabel="NO" itemValue="#{false}" />
+                            </h:selectOneRadio>
+                        </h:panelGrid>
+                        <br/>
+                        <br/>
+                        <p:commandButton id="btnGuardarInfoPersona" update=":growl,:frmDatosPersona" value="Guardar" icon="ui-icon-disk" actionListener="#{personaBean.btnUpdatePersona(actionEvent)}" title="Guardar" />  
+                    </p:panel>
+                </h:form> 
+                <br/>
+                <br/>
+                <h:form id="frmIdiomas">
+                    <p:panel style="width: 103%" header="Idiomas">
+                        <h:form>
+                            <p:commandButton id="btnUsuarioInsertarIdioma" oncomplete="PF('dialogInsertarIdioma').show()" icon="ui-icon-plusthick" title="Agregar idioma" value ="Agregar idioma"/>  
+                        </h:form>  
+                        <p:dataTable emptyMessage="No hay idiomas registrados" id="dtbIdiomas" var="idiomas" value="#{idiomasBean.peIdiomas}">
+                            <f:facet name="header">  
+                                Idiomas
+                            </f:facet>  
+                            <p:column headerText="Idioma" style="width:24%">  
+                                <h:outputText value="#{idiomas.maIdiomas.idNombre}" />  
+                            </p:column>  
+
+                            <p:column headerText="Lectura" style="width:24%" >
+                                <h:outputText value="#{idiomas.pidLectura}" />  
+                            </p:column>  
+
+                            <p:column headerText="Escritura" style="width:24%">  
+                                <h:outputText value="#{idiomas.pidEscritura}" />  
+                            </p:column>  
+
+                            <p:column headerText="Habla" style="width:24%">  
+                                <h:outputText value="#{idiomas.pidHabla}" />  
+                            </p:column> 
+                            <p:column style="width:4%" >  
+                                <p:commandButton  id="btnDelete" update=":frmDeleteIdioma"  oncomplete="PF('dialogUsuarioDelete').show()" icon="ui-icon-trash" title="Eliminar">  
+                                    <f:setPropertyActionListener value="#{idiomas}" target="#{idiomasBean.idiomaSeleccionado}" />  
+                                </p:commandButton> 
+                            </p:column> 
+                        </p:dataTable>  
+                    </p:panel>
+                </h:form> 
+                <h:form id ="frmAgregarIdioma">
+                    <p:dialog header="Agregar Idioma" widgetVar="dialogInsertarIdioma" resizable="false" id="dialogInsertarIdioma"  
+                              showEffect="fade" hideEffect="fade" modal="true">  
+                        <h:panelGrid  columns="2" cellpadding="4" style="margin:0 auto;">  
+                            <h:outputLabel value="Idioma" />  
+                            <p:selectOneMenu id="Idioma"  value="#{idiomasBean.idiomaSeleccionado.maIdiomas.idCod}">
+                                <f:selectItem itemLabel="- Seleccione - " noSelectionOption="true" />  
+                                <f:selectItems value="#{idiomasBean.selectOneItemsIdiomas}" /> 
+                            </p:selectOneMenu>
+                            <h:outputLabel value="Lectura:" />  
+                            <p:selectOneRadio id="Lectura"  value="#{idiomasBean.idiomaSeleccionado.pidLectura}" >
+                                <f:selectItem itemLabel="Bajo" itemValue="Bajo" />  
+                                <f:selectItem itemLabel="Medio" itemValue="Medio" />  
+                                <f:selectItem itemLabel="Alto" itemValue="Alto" />     
+                            </p:selectOneRadio>
+                            <h:outputLabel value="Escritura:" />  
+                            <p:selectOneRadio id="Escritura"  value="#{idiomasBean.idiomaSeleccionado.pidEscritura}">
+                                <f:selectItem itemLabel="Bajo" itemValue="Bajo" />  
+                                <f:selectItem itemLabel="Medio" itemValue="Medio" />  
+                                <f:selectItem itemLabel="Alto" itemValue="Alto" />    
+                            </p:selectOneRadio>
+                            <h:outputLabel value="Habla:" />  
+                            <p:selectOneRadio id="Habla"  value="#{idiomasBean.idiomaSeleccionado.pidHabla}" > 
+                                <f:selectItem itemLabel="Bajo" itemValue="Bajo" />  
+                                <f:selectItem itemLabel="Medio" itemValue="Medio" />  
+                                <f:selectItem itemLabel="Alto" itemValue="Alto" />   
+                            </p:selectOneRadio>                              
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton id="btnCreateAceptar" update=":frmIdiomas, :growl" actionListener="#{idiomasBean.btnCreateIdioma(actionEvent)}" icon="ui-icon-check" title="Guardar" value ="Guardar"/>  
+                                <p:commandButton id="btnCreateCancelar" oncomplete="PF('dialogInsertarIdioma').hide()" icon="ui-icon-close" title="Cancelar" value ="Cancelar"/>  
+                            </f:facet>
+                        </h:panelGrid>  
+                    </p:dialog>  
+                </h:form>           
+                <h:form id ="buscarCiudadResidencia" >
+                    <p:dialog header="Buscar ciudad" widgetVar="dialogBuscarCiudadResidencia" resizable="false" id="dialogBuscarCiudad"  
+                              showEffect="fade" hideEffect="fade" >  
+                        <h:panelGrid id="grdBuscarCiudad" columns="2" cellpadding="4" style="margin:0 auto;" >  
+                            <h:outputLabel for="Departamento" value="Departamento:" />  
+                            <p:selectOneMenu id="Departamento" required="true" filter="true" value="#{ciudadesBean.departamento}">  
+                                <f:selectItem itemLabel="- Seleccione - " itemValue="" />
+                                <f:selectItems value="#{ciudadesBean.departamentos}" />
+                                <p:ajax update="Ciudad" listener="#{ciudadesBean.handleCityChange()}" onstart="#{ciudadesBean.handleCityChange()}" />                             
+                            </p:selectOneMenu> 
+                            <h:outputLabel for="Ciudad" value="Ciudad: " />  
+                            <p:selectOneMenu id="Ciudad"  required="true" filter="true" value="#{ciudadesBean.ciudad}">  
+                                <f:selectItem itemLabel="- Seleccione - " itemValue="" />
+                                <f:selectItems value="#{ciudadesBean.ciudades}" />                                    
+                            </p:selectOneMenu> 
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton  id="btnCreateAceptar" icon="ui-icon-check" oncomplete="PF('dialogBuscarCiudadResidencia').hide()" update=":growl,:frmDatosPersona" title="Guardar" value ="Guardar" actionListener="#{personaBean.btnUpdateLugarResidencia(event)}"/>  
+                                <p:commandButton id="btnCreateCancelar" icon="ui-icon-close"  oncomplete="PF('dialogBuscarCiudadResidencia').hide()" title="Salir" value ="Salir"/>  
+                            </f:facet>
+                        </h:panelGrid> 
+                    </p:dialog>  
+                </h:form>
+                <h:form id ="buscarNacionalidad" >
+                    <p:dialog header="Buscar pais" widgetVar="dialogBuscarPais" resizable="false" id="dialogBuscarPais"  
+                              showEffect="fade" hideEffect="fade" >  
+                        <h:panelGrid id="grdBuscarPais" columns="2" cellpadding="4" style="margin:0 auto;" >  
+                            <h:outputLabel for="Pais" value="Pais:" />  
+                            <p:selectOneMenu id="Pais" required="true" filter="true" value="#{personaBean.personaSeleccionada.maPais.paisCod}">  
+                                <f:selectItem itemLabel="- Seleccione - " itemValue="" />
+                                <f:selectItems value="#{paisesBean.selectOneItemsPaises}" />                                
+                            </p:selectOneMenu>                             
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton  id="btnCreateAceptar" icon="ui-icon-check" oncomplete="PF('dialogBuscarPais').hide()" update=":growl,:frmDatosPersona" title="Guardar" value ="Guardar" actionListener="#{personaBean.btnUpdateNacionalidad(actionEvent)}"/>  
+                                <p:commandButton id="btnCreateCancelar" icon="ui-icon-close"  oncomplete="PF('dialogBuscarPais').hide()" title="Salir" value ="Salir"/>  
+                            </f:facet>
+                        </h:panelGrid> 
+                    </p:dialog>  
+                </h:form>
+                <h:form id ="frmBuscarCiudadNacimiento" >
+                    <p:dialog header="Buscar ciudad" widgetVar="dialogBuscarCiudadNacimiento" resizable="false" id="dialogBuscarCiudad"  
+                              showEffect="fade" hideEffect="fade" >  
+                        <h:panelGrid id="grdBuscarCiudad" columns="2" cellpadding="4" style="margin:0 auto;" >  
+                            <h:outputLabel for="Departamento" value="Departamento:" />  
+                            <p:selectOneMenu id="Departamento" required="true" filter="true" value="#{ciudadesBean.departamento}">  
+                                <f:selectItem itemLabel="- Seleccione - " itemValue="" />
+                                <f:selectItems value="#{ciudadesBean.departamentos}" />
+                                <p:ajax update="Ciudad" listener="#{ciudadesBean.handleCityChange()}" onstart="#{ciudadesBean.handleCityChange()}" />                             
+                            </p:selectOneMenu> 
+                            <h:outputLabel for="Ciudad" value="Ciudad: " />  
+                            <p:selectOneMenu id="Ciudad"  required="true" filter="true" value="#{ciudadesBean.ciudad}">  
+                                <f:selectItem itemLabel="- Seleccione - " itemValue="" />
+                                <f:selectItems value="#{ciudadesBean.ciudades}" />                                    
+                            </p:selectOneMenu> 
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton id="btnCreateAceptar" icon="ui-icon-check" oncomplete="PF('dialogBuscarCiudadNacimiento').hide()" update=":growl,:frmDatosPersona" title="Guardar" value ="Guardar" actionListener="#{personaBean.btnUpdateLugarNacimiento(event)}"/>  
+                                <p:commandButton id="btnCreateCancelar" icon="ui-icon-close"  oncomplete="PF('dialogBuscarCiudadNacimiento').hide()" title="Salir" value ="Salir"/>  
+                            </f:facet>
+                        </h:panelGrid> 
+                    </p:dialog>  
+                </h:form>
+                <h:form id ="buscarCiudadExpedicion" >
+                    <p:dialog header="Buscar ciudad" widgetVar="dialogBuscarCiudadExpedicion" resizable="false" id="dialogBuscarCiudadExpedicion"  
+                              showEffect="fade" hideEffect="fade" >  
+                        <h:panelGrid id="grdBuscarCiudad" columns="2" cellpadding="4" style="margin:0 auto;" >  
+                            <h:outputLabel for="Departamento" value="Departamento:" />  
+                            <p:selectOneMenu id="Departamento" required="true" filter="true" value="#{ciudadesBean.departamento}">  
+                                <f:selectItem itemLabel="- Seleccione - " itemValue="" />
+                                <f:selectItems value="#{ciudadesBean.departamentos}" />
+                                <p:ajax update="Ciudad" listener="#{ciudadesBean.handleCityChange()}" onstart="#{ciudadesBean.handleCityChange()}" />                             
+                            </p:selectOneMenu> 
+                            <h:outputLabel for="Ciudad" value="Ciudad: " />  
+                            <p:selectOneMenu id="Ciudad"  required="true" filter="true" value="#{ciudadesBean.ciudad}">  
+                                <f:selectItem itemLabel="- Seleccione - " itemValue="" />
+                                <f:selectItems value="#{ciudadesBean.ciudades}" />                                    
+                            </p:selectOneMenu> 
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton  id="btnCreateAceptar" icon="ui-icon-check" oncomplete="PF('dialogBuscarCiudadExpedicion').hide()" update=":growl,:frmDatosPersona" title="Guardar" value ="Guardar" actionListener="#{personaBean.btnUpdateLugarExpedicion(event)}"/>  
+                                <p:commandButton id="btnCreateCancelar" icon="ui-icon-close"  oncomplete="PF('dialogBuscarCiudadExpedicion').hide()" title="Salir" value ="Salir"/>  
+                            </f:facet>
+                        </h:panelGrid> 
+                    </p:dialog>  
+                </h:form>
+                <h:form id="frmDeleteIdioma">
+                    <p:confirmDialog id ="confirmDialog" message="Esta seguro de eliminar el registro?
+                                     " header ="Eliminar Idioma" severity="alert" widgetVar="dialogUsuarioDelete">  
+                        <h:inputHidden value="#{idiomasBean.idiomaSeleccionado.pidCod}" /> 
+                        <p:commandButton  id ="confirm" value="Aceptar" update=":frmIdiomas ,:growl" oncomplete="dialogUsuarioDelete.hide()"
+                                          actionListener="#{idiomasBean.btnDeleteIdioma(actionEvent)}" icon="ui-icon-check"/>  
+                        <p:commandButton id="decline" value="Cancelar" onclick="dialogUsuarioDelete.hide()" type="button" icon="ui-icon-close"/>       
+                    </p:confirmDialog>  
+                </h:form>
+                <h:form id="frmSubirFotoHoja" enctype="multipart/form-data">
+                    <p:dialog showEffect="slide" hideEffect="fade" header="Cargar foto" widgetVar="dialogCargarFoto" resizable="false" id="dialogCargarFoto"  
+                              modal="true">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Foto:"/>
+                            <p:fileUpload  value="#{personaBean.foto}" mode="simple"                       
+                                           sizeLimit="1000000" allowTypes="/(\.|\/)(jpe?g)$/" />                     
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton ajax="false" id="btnSubir"  
+                                                 update=":frmDatosPersona, :growl" actionListener="#{personaBean.upload()}" icon="ui-icon-check" title="Subir" value ="Subir"/>
+                                <p:commandButton id="btnCancelar" oncomplete="PF('dialogCargarFoto').hide()" icon="ui-icon-close" title="Cancelar" value ="Cancelar"/>  
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

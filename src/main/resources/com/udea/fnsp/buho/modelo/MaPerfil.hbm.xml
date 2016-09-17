@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/06/2014 12:01:48 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="com.udea.fnsp.buho.modelo.MaPerfil" table="ma_perfil" catalog="bdsiifnsp">
+        <id name="pfCod" type="int">
+            <column name="pf_cod" />
+            <generator class="assigned" />
+        </id>
+        <property name="pfNombre" type="string">
+            <column name="pf_nombre" length="50" not-null="true" />
+        </property>
+        <property name="pfMenuPersona" type="boolean">
+            <column name="pf_menu_persona" not-null="true" />
+        </property>
+        <property name="pfMenuPersonaInfo" type="boolean">
+            <column name="pf_menu_persona_Info" not-null="true" />
+        </property>
+        <property name="pfMenuPersonaAcad" type="boolean">
+            <column name="pf_menu_persona_acad" not-null="true" />
+        </property>
+        <property name="pfMenuPersonaLaboral" type="boolean">
+            <column name="pf_menu_persona_laboral" not-null="true" />
+        </property>
+        <property name="pfMenuConvocatorias" type="boolean">
+            <column name="pf_menu_convocatorias" not-null="true" />
+        </property>
+        <property name="pfMenuConvocatoriasVigentes" type="boolean">
+            <column name="pf_menu_convocatorias_vigentes" not-null="true" />
+        </property>
+        <property name="pfMenuVisualizar" type="boolean">
+            <column name="pf_menu_visualizar" not-null="true" />
+        </property>
+        <property name="pfMenuVisualizarHoja" type="boolean">
+            <column name="pf_menu_visualizar_hoja" not-null="true" />
+        </property>
+        <property name="pfMenuConsultas" type="boolean">
+            <column name="pf_menu_consultas" not-null="true" />
+        </property>
+        <property name="pfMenuConsultasConsu" type="boolean">
+            <column name="pf_menu_consultas_consu" not-null="true" />
+        </property>
+        <property name="pfMenuPerfil" type="boolean">
+            <column name="pf_menu_perfil" not-null="true" />
+        </property>
+        <property name="pfMenuPerfilContrasena" type="boolean">
+            <column name="pf_menu_perfil_contrasena" not-null="true" />
+        </property>
+        <property name="pfMenuAdministrar" type="boolean">
+            <column name="pf_menu_administrar" not-null="true" />
+        </property>
+        <property name="pfMenuAdministrarPerfil" type="boolean">
+            <column name="pf_menu_administrar_perfil" not-null="true" />
+        </property>
+        <property name="pfMenuAdministrarUsuario" type="boolean">
+            <column name="pf_menu_administrar_usuario" not-null="true" />
+        </property>
+        <set name="maUsuarios" table="ma_usuario" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="us_perfil" />
+            </key>
+            <one-to-many class="com.udea.fnsp.buho.modelo.MaUsuario" />
+        </set>
+    </class>
+</hibernate-mapping>

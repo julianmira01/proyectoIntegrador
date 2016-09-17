@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/06/2014 12:01:48 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="com.udea.fnsp.buho.modelo.MaAreasinteres" table="ma_areasinteres" catalog="bdsiifnsp">
+        <id name="aiCod" type="java.lang.Integer">
+            <column name="ai_cod" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="maAreaconvoca" class="com.udea.fnsp.buho.modelo.MaAreaconvoca" fetch="select">
+            <column name="ai_area" not-null="true" />
+        </many-to-one>
+        <property name="aiFechainicio" type="date">
+            <column name="ai_fechainicio" length="10" />
+        </property>
+        <property name="aiFechafin" type="date">
+            <column name="ai_fechafin" length="10" />
+        </property>
+        <property name="aiNombre" type="string">
+            <column name="ai_nombre" length="150" not-null="true" />
+        </property>
+        <property name="aiPerfilsolicitado" type="string">
+            <column name="ai_perfilsolicitado" length="65535" />
+        </property>
+        <property name="aiDoc" type="string">
+            <column name="ai_doc" length="50" />
+        </property>
+        <property name="aiFechapublicacion" type="date">
+            <column name="ai_fechapublicacion" length="10" />
+        </property>
+        <property name="aiTipoadenda" type="string">
+            <column name="ai_tipoadenda" length="50" />
+        </property>
+        <property name="aiDocadenda" type="string">
+            <column name="ai_docadenda" length="50" />
+        </property>
+        <property name="aiFechadenda" type="date">
+            <column name="ai_fechadenda" length="10" />
+        </property>
+        <property name="aiDocresultados" type="string">
+            <column name="ai_docresultados" length="50" />
+        </property>
+        <set name="peInteresespersonas" table="pe_interesespersona" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="ip_area" not-null="true" />
+            </key>
+            <one-to-many class="com.udea.fnsp.buho.modelo.PeInteresespersona" />
+        </set>
+    </class>
+</hibernate-mapping>

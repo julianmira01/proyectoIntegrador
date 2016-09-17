@@ -1,0 +1,198 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+    <body>
+
+        <ui:composition template="./views/templates/Template.xhtml">
+
+            <ui:define name="content">
+                <h:outputScript library="js" name="descargaCertificado.js"/>
+                <h:outputScript library="js" name="idiomaCalendar.js"/>
+                <h:outputScript library="js" name="limpiarDialogExperiencia.js"/>
+                <p:growl id="growl" showDetail="true"   life="5000" />
+                <h:form id="frmExperienciaPersona">                     
+                    <p:panel style="width: 103%" header="Experiencia Persona">
+                        <h:form>
+                            <p:commandButton id="btnUsuarioInsertarExperiencia" oncomplete="PF('dialogInsertarExperiencia').show()" icon="ui-icon-plusthick" title="Agregar Experiencia" value ="Agregar Experiencia"/>  
+                        </h:form>  
+                        <p:dataTable emptyMessage="No hay experiencia laboral registrada" var="experiencia" value="#{expLaboralBean.peExplaboral}">
+                            <f:facet name="header">  
+                                Experiencia Laboral
+                            </f:facet>  
+                            <p:column headerText="Tipo de Experiencia" >  
+                                <h:outputText value="#{experiencia.maTipoexperiencia.teDescirpcion}" />  
+                            </p:column> 
+                            <p:column headerText="Area experiencia" >  
+                                <h:outputText value="#{experiencia.maAreaexperiencia.aeNombre}" />  
+                            </p:column> 
+
+                            <p:column headerText="Naturaleza Instituciòn" >
+                                <h:outputText value="#{experiencia.maNaturalezainst.niNombre}" />  
+                            </p:column>  
+
+                            <p:column headerText="Cargo" >  
+                                <h:outputText value="#{experiencia.epCargo}" />  
+                            </p:column>
+
+                            <p:column headerText="Institución" >  
+                                <h:outputText value="#{experiencia.epInstitucion}" />  
+                            </p:column>  
+
+                            <p:column headerText="Fecha de Ingreso" >  
+                                <h:outputText value="#{experiencia.epFechaingreso}" />  
+                            </p:column>                                                       
+                            <p:column headerText="Fecha de Retiro" >  
+                                <h:outputText value="#{experiencia.epFecharetiro}" />  
+                            </p:column>                     
+                            <p:column headerText="Trabajo Actual" >  
+                                <h:outputText value="#{experiencia.epActual}" />  
+                            </p:column> 
+                            <p:column headerText="Dedicaciòn" >  
+                                <h:outputText value="#{experiencia.maDedicacion.ddNombre}" />  
+                            </p:column> 
+                            <p:column headerText="Certificado" >
+                                <p:commandButton oncomplete="PF('dialogCargarCertificado').show()"  icon="ui-icon-arrowthickstop-1-n" title="Subir">
+                                    <f:setPropertyActionListener value="#{experiencia}" target="#{expLaboralBean.explaboralSeleccionado}" />  
+                                </p:commandButton>    
+                                <p:commandButton title="Descargar" actionListener="#{descargarCertificado.prepDownload(experiencia.epCertificado)}" ajax="false" id="downloadLink" onclick="PrimeFaces.monitorDownload(start, stop)"   
+                                                 icon="ui-icon-arrowthickstop-1-s">  
+                                    <p:fileDownload value="#{descargarCertificado.desCargarCertificado}" />  
+                                </p:commandButton>                  
+                            </p:column>  
+                            <p:column headerText="Opciones" style="text-align: center">  
+                                <p:commandButton id="btnDelete" update=":formDeleteExperiencia"  oncomplete="PF('dialogExperienciaDelete').show()" icon="ui-icon-trash" title="Eliminar">  
+                                    <f:setPropertyActionListener value="#{experiencia}" target="#{expLaboralBean.explaboralSeleccionado}" />  
+                                </p:commandButton>
+                                <p:commandButton id="btnUpdate" update=":formUpdateExperiencia"  oncomplete="PF('dialogActualizarExperiencia').show()" icon="ui-icon-pencil" title="Actualizar">  
+                                    <f:setPropertyActionListener value="#{experiencia}" target="#{expLaboralBean.explaboralSeleccionado}" />  
+                                </p:commandButton> 
+                            </p:column> 
+                        </p:dataTable>  
+                    </p:panel>
+                </h:form>                
+                <h:form id="frmSubirCertificado" enctype="multipart/form-data">
+                    <p:dialog showEffect="slide" hideEffect="fade" header="Cargar certificado" widgetVar="dialogCargarCertificado" resizable="false" id="dialogCargarCertificado"  
+                              modal="true">
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Certificado:"/>
+                            <p:fileUpload  value="#{expLaboralBean.certificadoArchivo}" mode="simple"                                              
+                                           allowTypes="/(\.|\/)(pdf)$/" sizeLimit="1000000" />
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton ajax="false" id="btnSubir"  
+                                                 update=":frmExperienciaPersona, :growl" actionListener="#{expLaboralBean.upload()}" icon="ui-icon-check" title="Subir" value ="Subir"/>
+                                <p:commandButton id="btnCancelar" oncomplete="PF('dialogCargarCertificado').hide()" icon="ui-icon-close" title="Cancelar" value ="Cancelar"/>  
+                            </f:facet>
+                        </h:panelGrid>
+                    </p:dialog>
+                </h:form>
+                <h:form id ="formAgregarExperiencia">
+                    <p:dialog  onHide="limpiarForm()" header="Agregar Experiencia" widgetVar="dialogInsertarExperiencia" resizable="false" id="dialogInsertarExperiencia"  
+                               showEffect="fade" hideEffect="fade" modal="true">                        
+                        <h:panelGrid columns="2" cellpadding="4" style="margin:0 auto;"> 
+                            <h:outputLabel  value="Tipo de Experiencia:" />  
+                            <p:selectOneMenu filter="true"  value="#{expLaboralBean.explaboralSeleccionado.maTipoexperiencia.teCod}">
+                                <f:selectItem itemLabel="- Seleccione - " noSelectionOption="true" />  
+                                <f:selectItems value="#{listasDesplegablesBean.selectOneItemsTipoExp}" /> 
+                            </p:selectOneMenu>
+                            <h:outputLabel for="AreaExperiencia" value="Area de Experiencia:" />  
+                            <p:selectOneMenu filter="true" id="AreaExperiencia" value="#{expLaboralBean.explaboralSeleccionado.maAreaexperiencia.aeCod}">
+                                <f:selectItem itemLabel="- Seleccione - " noSelectionOption="true" />  
+                                <f:selectItems value="#{expLaboralBean.selectOneItemsArea}" /> 
+                            </p:selectOneMenu>
+                            <h:outputLabel for="NaturalezaInstitucion" value="Naturaleza Institución:" />  
+                            <p:selectOneMenu id="NaturalezaInstitucion" value="#{expLaboralBean.explaboralSeleccionado.maNaturalezainst.niCod}">
+                                <f:selectItem itemLabel="- Seleccione - " noSelectionOption="true" />  
+                                <f:selectItems value="#{expLaboralBean.selectOneItemsNatuInstitucion}" /> 
+                            </p:selectOneMenu>
+                            <h:outputLabel  for="txtCargo" value="Cargo:" />  
+                            <p:inputText  id="txtCargo" value="#{expLaboralBean.explaboralSeleccionado.epCargo}" size="70"/>
+                            <h:outputLabel for="txtInstitucion" value="Institución:" />  
+                            <p:inputText  id="txtInstitucion" value="#{expLaboralBean.explaboralSeleccionado.epInstitucion}" size="70"/>
+                            <h:outputLabel  value="Fecha de ingreso:"/>                            
+                            <p:calendar locale="es" yearRange="c-80:c+10" navigator="true" value="#{expLaboralBean.explaboralSeleccionado.epFechaingreso}" id="FechaIngreso" showOn="button"/>                              
+                            <h:outputLabel  value="Fecha de retiro"/>
+                            <p:calendar locale="es" yearRange="c-80:c+10" navigator="true" value="#{expLaboralBean.explaboralSeleccionado.epFecharetiro}" id="FechaRetiro" showOn="button"/>                              
+                            <h:outputLabel value="Trabajo Actual:" />  
+                            <p:selectOneRadio id="Actual"  value="#{expLaboralBean.explaboralSeleccionado.epActual}" >
+                                <f:selectItem itemLabel="Si" itemValue="Si" />  
+                                <f:selectItem itemLabel="No" itemValue="No" />                                  
+                            </p:selectOneRadio>                          
+                            <h:outputLabel value="Dedicación:" />  
+                            <p:selectOneMenu id="Dedicacion" value="#{expLaboralBean.explaboralSeleccionado.maDedicacion.ddCod}">
+                                <f:selectItem itemLabel="- Seleccione - " noSelectionOption="true" />  
+                                <f:selectItems value="#{expLaboralBean.selectOneItemsDedicacion}" /> 
+                            </p:selectOneMenu>                                                 
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton id="btnCreateAceptar"  update=":frmExperienciaPersona, :growl" actionListener="#{expLaboralBean.btnCreateExperiencia(actionEvent)}" icon="ui-icon-check" title="Guardar" value ="Guardar"/>
+                                <p:commandButton id="btnCreateCancelar" oncomplete="PF('dialogInsertarExperiencia').hide()" icon="ui-icon-close" title="Cancelar" value ="Cancelar"/>  
+                            </f:facet>
+                        </h:panelGrid>                        
+                    </p:dialog>  
+                </h:form> 
+                <h:form id ="formUpdateExperiencia">
+                    <p:dialog header="Actualizar Experiencia" widgetVar="dialogActualizarExperiencia" resizable="false" id="dialogActualizarExperiencia"  
+                              showEffect="fade" hideEffect="fade" modal="true">                        
+                        <h:panelGrid columns="2" cellpadding="4" style="margin:0 auto;">  
+                            <h:outputLabel  value="Tipo de Experiencia:" />  
+                            <p:selectOneMenu  value="#{expLaboralBean.explaboralSeleccionado.maTipoexperiencia.teCod}">
+                                <f:selectItem itemLabel="- Seleccione - " noSelectionOption="true" />  
+                                <f:selectItems value="#{listasDesplegablesBean.selectOneItemsTipoExp}" /> 
+                            </p:selectOneMenu>
+                            <h:outputLabel value="Area de Experiencia:" />  
+                            <p:selectOneMenu id="AreaExperiencia" value="#{expLaboralBean.explaboralSeleccionado.maAreaexperiencia.aeCod}">
+                                <f:selectItem itemLabel="- Seleccione - " noSelectionOption="true" />  
+                                <f:selectItems value="#{expLaboralBean.selectOneItemsArea}" /> 
+                            </p:selectOneMenu>
+                            <h:outputLabel value="Naturaleza Institución:" />  
+                            <p:selectOneMenu id="NaturalezaInstitucion" value="#{expLaboralBean.explaboralSeleccionado.maNaturalezainst.niCod}">
+                                <f:selectItem itemLabel="- Seleccione - " noSelectionOption="true" />  
+                                <f:selectItems value="#{expLaboralBean.selectOneItemsNatuInstitucion}" /> 
+                            </p:selectOneMenu>
+                            <h:outputLabel for="txtCargo" value="Cargo:" />  
+                            <p:inputText id="txtCargo" value="#{expLaboralBean.explaboralSeleccionado.epCargo}" size="70"/>
+                            <h:outputLabel for="txtInstitucion" value="Institución:" />  
+                            <p:inputText id="txtInstitucion" value="#{expLaboralBean.explaboralSeleccionado.epInstitucion}" size="70"/>
+                            <h:outputLabel  value="Fecha de ingreso:"/>
+                            <p:calendar locale="es" yearRange="c-80:c+10" navigator="true" value="#{expLaboralBean.explaboralSeleccionado.epFechaingreso}" id="popupButtonCal1" showOn="button"/>                              
+                            <h:outputLabel  value="Fecha de retiro"/>
+                            <p:calendar locale="es" yearRange="c-80:c+10" navigator="true" value="#{expLaboralBean.explaboralSeleccionado.epFecharetiro}" id="popupButtonCal2" showOn="button" />                              
+                            <h:outputLabel value="Trabajo Actual:" />  
+                            <p:selectOneRadio id="Actual"  value="#{expLaboralBean.explaboralSeleccionado.epActual}" >
+                                <f:selectItem itemLabel="Si" itemValue="Si" />  
+                                <f:selectItem itemLabel="No" itemValue="No" />                                  
+                            </p:selectOneRadio>                          
+                            <h:outputLabel for="Dedicacion" value="Dedicación:" />  
+                            <p:selectOneMenu id="Dedicacion" value="#{expLaboralBean.explaboralSeleccionado.maDedicacion.ddCod}">
+                                <f:selectItem itemLabel="- Seleccione - " noSelectionOption="true" />  
+                                <f:selectItems value="#{expLaboralBean.selectOneItemsDedicacion}" /> 
+                            </p:selectOneMenu>                                                 
+                            <f:facet name="footer">
+                                <p:separator/>
+                                <p:commandButton id="btnCreateAceptar" update=":frmExperienciaPersona, :growl" actionListener="#{expLaboralBean.btnUpdateEstudio(actionEvent)}" icon="ui-icon-check" title="Guardar" value ="Guardar"/>
+                                <p:commandButton id="btnCreateCancelar" oncomplete="PF('dialogActualizarExperiencia').hide()" icon="ui-icon-close" title="Cancelar" value ="Cancelar"/>  
+                            </f:facet>
+                        </h:panelGrid>                        
+                    </p:dialog>    
+                </h:form> 
+                <h:form id="formDeleteExperiencia">
+                    <p:confirmDialog showEffect="fade" hideEffect="fade" id ="confirmDialog" message="Esta seguro de eliminar la experiencia?
+                                     " header ="Eliminar Experiencia" severity="alert" widgetVar="dialogExperienciaDelete">  
+                        <h:inputHidden value="#{expLaboralBean.explaboralSeleccionado.epCod}" /> 
+                        <p:commandButton  id ="confirm" value="Aceptar" update=":frmExperienciaPersona ,:growl" oncomplete="dialogExperienciaDelete.hide()"
+                                          actionListener="#{expLaboralBean.btnDeleteExperiencia(actionEvent)}" icon="ui-icon-check"/>  
+                        <p:commandButton id="decline" value="Cancelar" onclick="dialogExperienciaDelete.hide()" type="button" icon="ui-icon-close"/>       
+                    </p:confirmDialog>  
+                </h:form>
+            </ui:define>
+
+        </ui:composition>
+
+    </body>
+</html>

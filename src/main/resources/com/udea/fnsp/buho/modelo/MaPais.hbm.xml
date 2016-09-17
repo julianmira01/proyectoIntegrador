@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 25/06/2014 12:01:48 PM by Hibernate Tools 3.6.0 -->
+<hibernate-mapping>
+    <class name="com.udea.fnsp.buho.modelo.MaPais" table="ma_pais" catalog="bdsiifnsp">
+        <id name="paisCod" type="int">
+            <column name="pais_cod" />
+            <generator class="assigned" />
+        </id>
+        <property name="paisContinente" type="string">
+            <column name="pais_continente" length="50" />
+        </property>
+        <property name="paisNombre" type="string">
+            <column name="pais_nombre" length="60" not-null="true" />
+        </property>
+        <set name="pePersonas" table="pe_persona" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="pe_nacionalidad" />
+            </key>
+            <one-to-many class="com.udea.fnsp.buho.modelo.PePersona" />
+        </set>
+    </class>
+</hibernate-mapping>

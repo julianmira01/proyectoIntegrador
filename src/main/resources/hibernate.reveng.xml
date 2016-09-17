@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
+<hibernate-reverse-engineering>
+  <schema-selection match-catalog="bdsiifnsp"/>
+  <table-filter match-name="pe_persona"/>
+  <table-filter match-name="pe_interesespersona"/>
+  <table-filter match-name="pe_idiomas"/>
+  <table-filter match-name="ma_idiomas"/>
+  <table-filter match-name="ma_dedicacion"/>
+  <table-filter match-name="ma_areaestudio"/>
+  <table-filter match-name="ma_pais"/>
+  <table-filter match-name="pe_explaboral"/>
+  <table-filter match-name="ma_tipoestudio"/>
+  <table-filter match-name="ma_sexo"/>
+  <table-filter match-name="ma_areaexperiencia"/>
+  <table-filter match-name="ma_perfil"/>
+  <table-filter match-name="ma_naturalezainst"/>
+  <table-filter match-name="ma_areaconvoca"/>
+  <table-filter match-name="ma_departamento"/>
+  <table-filter match-name="ma_usuario"/>
+  <table-filter match-name="pe_estudios"/>
+  <table-filter match-name="ma_tipoid"/>
+  <table-filter match-name="ma_areasinteres"/>
+  <table-filter match-name="ma_tipoexperiencia"/>
+  <table-filter match-name="ma_municipio"/>
+</hibernate-reverse-engineering>
