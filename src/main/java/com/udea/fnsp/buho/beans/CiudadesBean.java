@@ -26,6 +26,7 @@ public class CiudadesBean implements Serializable {
 
     /**
      * Creates a new instance of selectBean
+     * Prueba Julian
      */
     private String departamento;
     private String ciudad;
