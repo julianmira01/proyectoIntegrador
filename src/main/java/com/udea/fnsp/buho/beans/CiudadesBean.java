@@ -29,6 +29,8 @@ public class CiudadesBean implements Serializable {
      */
     private String departamento;
     private String ciudad;
+    
+    /**prueba repor */
 
     private Map<String, String> departamentos = new HashMap<String, String>();
     private Map<String, Map<String, String>> datosCiudad = new HashMap<String, Map<String, String>>();
